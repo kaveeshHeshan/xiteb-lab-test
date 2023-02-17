@@ -35,3 +35,4 @@ Route::resource('subcategories', 'SubcategoriesController');
 // Products Related Routes
 Route::resource('products', 'ProductsController');
 Route::post('/product/remove', 'ProductsController@deleteProduct');
+Route::post('/inquery', 'ProductsController@inquerySubmission');

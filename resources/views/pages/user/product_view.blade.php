@@ -4,6 +4,10 @@
 
     <!-- Styles -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    
+    {{-- Sweet alert CSS CDN --}}
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.min.css" rel="stylesheet">
+    
     <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
 
     <style>
@@ -84,7 +88,7 @@
                 </div>
                 <hr>
                 <div class="inquery-btn-block">
-                    <button class="btn btn-primary">{{__('Inquery Now')}}</button>
+                    <button onclick="inqueryPopUp(event, {{$product->id}})" class="btn btn-primary">{{__('Inquery Now')}}</button>
                 </div>
             </div>
         </div>
@@ -98,6 +102,77 @@
 
 @push('custom-scripts')
 
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.16/dist/sweetalert2.min.js"></script>
+
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        let APP_URL = {!! json_encode(url('/')) !!};
+
+        function inqueryPopUp(e, productId) {
+            e.preventDefault();
+            Swal.fire({
+                title: 'Inquery Form',
+                html: `<input type="text" id="username-input" class="swal2-input" placeholder="Username" required>
+                        <input type="email" id="email-input" class="swal2-input" placeholder="E-mail" required>
+                        <input type="text" id="contact-input" class="swal2-input" placeholder="Contact Number" required>
+                        <textarea id='question-input' class='swal2-textarea' placeholder="Question"></textarea>`,
+                confirmButtonText: 'Send',
+                focusConfirm: false,
+                preConfirm: () => {
+                    const username = Swal.getPopup().querySelector('#username-input').value
+                    const email = Swal.getPopup().querySelector('#email-input').value
+                    const contactNumber = Swal.getPopup().querySelector('#contact-input').value
+                    const question = Swal.getPopup().querySelector('#question-input').value
+                    if (!username || !email || !contactNumber || !question) {
+                        Swal.showValidationMessage(`Please fill the fields`);
+                    }
+                    return { username: username, email: email, contactNumber:contactNumber, question:question }
+                }
+                }).then((result) => {
+
+                    $.ajax({
+                        type: 'POST',
+                        url: APP_URL+'/inquery',
+                        data: {
+                            productId: productId,
+                            username: result.value.username,
+                            email: result.value.email,
+                            contactNumber: result.value.contactNumber,
+                            question: result.value.question,
+                        },
+                        success: function(response) {
+                            Swal.fire({
+                                toast: true,
+                                position: 'bottom-end',
+                                icon: 'success',
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 3500
+                            });
+
+                        },
+                        error: function(response) {
+                            Swal.fire({
+                                toast: true,
+                                position: 'bottom-end',
+                                icon: 'error',
+                                title: response.message,
+                                showConfirmButton: false,
+                                timer: 3500
+                            });
+
+                        }
+                    });
+
+                })
+        }
+    </script>
 
 @endpush

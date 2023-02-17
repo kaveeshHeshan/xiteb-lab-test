@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Product;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use App\Models\ProductImages;
+use App\Notifications\Inquery;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use Illuminate\Support\Facades\Notification;
 
 class ProductsController extends Controller
 {
@@ -270,6 +273,40 @@ class ProductsController extends Controller
         } catch (\Throwable $th) {
             //throw $th;
             Log::debug("Post - Delete : ".$th->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Something went wrong!',
+            ])->setStatusCode(561);
+        }
+    }
+
+    public function inquerySubmission(Request $request)
+    {
+        try {
+
+            $users = User::role('staff_member')->get();
+            $product_id = $request->productId;
+            $username = $request->username;
+            $email = $request->email;
+            $contact_number = $request->contactNumber;
+            $question = $request->question;
+
+            try {
+                
+                Notification::send($users, new Inquery($product_id, $username, $email, $contact_number, $question));
+
+            } catch (\Throwable $th) {
+                //throw $th;
+                Log::error("Inquery Mail Error : ".$th->getMessage());
+            }
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Your inquery is submitted successfully!',
+            ])->setStatusCode(200);
+            
+        } catch (\Throwable $th) {
+            //throw $th;
             return response()->json([
                 'status' => 'error',
                 'message' => 'Something went wrong!',
