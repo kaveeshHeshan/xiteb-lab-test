@@ -13,4 +13,10 @@ class ProductImages extends Model
         'product_id',
         'image',
     ];
+
+    // fetch related auth data
+    public function createdByUserData()
+    {
+        return $this->belongsTo('App\Models\Product', 'product_id', 'id');
+    }
 }

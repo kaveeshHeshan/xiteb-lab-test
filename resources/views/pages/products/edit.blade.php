@@ -13,6 +13,9 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/eonasdan-bootstrap-datetimepicker/4.17.49/css/bootstrap-datetimepicker.min.css"
         integrity="sha512-ipfmbgqfdejR27dWn02UftaAzUfxJ3HR4BDQYuITYSj6ZQfGT1NulP4BOery3w/dT2PYAe3bG5Zm/owm7MuFhA=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    {{-- Image Uploader CSS --}}
+    <link rel="stylesheet" href="{{ asset('/css/image-uploader.min.css') }}" />
 
     <style>
         .profile-image-input {
@@ -78,44 +81,66 @@
         <div class="-section">
             <div class="section-heading align-in-row-left">
                 <div class="back-button">
-                    <a href="{{url('/categories')}}"><i class='bx bxs-chevron-left' ></i></a>
+                    <a href="{{url('/products')}}"><i class='bx bxs-chevron-left' ></i></a>
                 </div>
                 <div class="section-title">
-                    <h2>{{__('Category Information')}}</h2>
+                    <h2>{{__('Product Information')}}</h2>
                 </div>
             </div>
             <hr>
             <div class="">
-                <form id="product_update_form" method="POST" action="{{route('categories.store')}}" enctype="multipart/form-data">
+                <form id="product_update_form" method="POST" action="{{route('products.update', $product->id)}}" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <!-- Profile -->
                     <div class="">
                         {{-- <form> --}}
 
                             <div class="row form-section">
+                                <div class="col-md-6">
+                                    <label for="product-title">{{__('Product Title')}} <span class="mandatory_indicator">*</span></label>
+                                    <input type="text" id="product-title" class="form-control" name="name" placeholder="Product Title" value="{{ old('name', $product->name) }}">
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="product-title">{{__('Subcategory')}} <span class="mandatory_indicator">*</span></label>
+                                    <select class="form-select" aria-label="Default select example" name="subcategory_id">
+                                        @if (count($subcategories) > 0)
+                                            @foreach ($subcategories as $subcategory)
+                                                <option value="{{$subcategory->id}}"@if ($subcategory->id == $product->subcategory_id) selected @endif>{{$subcategory->name}}</option>
+                                            @endforeach
+                                        @else
+                                            <option selected disabled>{{__('No Subcategory found')}}</option>
+                                        @endif
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row form-section">
                                 <div class="col-md-12">
-                                    <label for="post-title">{{__('Category Title')}} <span class="mandatory_indicator">*</span></label>
-                                    <input type="text" id="post-title" class="form-control" name="name" placeholder="Category Title">
+                                    <label for="product-description">{{__('Description')}} <span class="mandatory_indicator">*</span></label>
+                                    <textarea class="form-control" name="description" id="product-description" cols="30" rows="5" placeholder="Description">{{ old('description', $product->description) }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="row form-section">
+                                <div class="col-md-6">
+                                    <label for="product-price">{{__('Price')}} <span class="mandatory_indicator">*</span></label>
+                                    <input type="number" id="product-price" class="form-control" name="price" placeholder="Price" value="{{ old('price', $product->price) }}">
                                 </div>
                             </div>
 
                             <div class="row form-section mt-3">
-                                <div class="col-md-4">
-                                    <label for="category-img-input">{{__('Category Image')}} <span class="mandatory_indicator">*</span></label>
-                                    <input id="category-img-input" class="form-control" type="file" name="category_cover_image">
-                                </div>
-                                <div class="col-md-4 text-center">
-                                    <label for="selected-category-img">{{__('Selected Image')}}</label>&nbsp;
-                                    <img id="selected-category-img" class="rounded-circle" style="background: #fff; width: 120px; height: 90px; object-fit: cover; border-radius: 10px !important;" src="{{asset('/img/system_default/default-image-placeholder.jpg') }}" alt="">
-                                </div>
-                                <div class="col-md-4"></div>
-                            </div>
-                            <div class="row form-section mt-1" style="padding-left: 15px;">
-                                <div class="col-md-4 form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                                    <label class="form-check-label" for="flexSwitchCheckDefault">{{__('Is Active')}}</label>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label class="form-control-label"
+                                            for="product-images">{{__('Product Images')}}</label>
+                                        <div class="product-images"></div>
+                                        {{-- <input id="removeImages" type="hidden" name="removeImagesInput"> --}}
+                                    </div>
                                 </div>
                             </div>
+
                             <!-- Submit button -->
                             <div class="text-center mt-5 form-section">
                                 <button class="btn btn-submit" type="submit">{{__('Save')}}</button>
@@ -163,29 +188,62 @@
     <!-- Laravel Javascript Validation -->
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
 
+    <script src="{{ asset('/js/image-uploader.min.js') }}"></script>
+
     <script>
         $(document).ready(function() {
             // 
         });
     </script>
 
-<script>
-    function readURL(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
+    <script>
+        var APP_URL = {!! json_encode(url('/')) !!};
 
-            reader.onload = function (e) {
-                $('#selected-category-img').attr('src', e.target.result);
-            }
+        var images_set = {!! json_encode($productImagesArray) !!};
 
-            reader.readAsDataURL(input.files[0]);
+        if (images_set != '') {
+
+            var image_url_obj_arr = [];
+
+            var images = {};
+
+            $.each(images_set, function(index, value) {
+
+                images = {
+                    ['id']: value.id,
+                    ['src']: value.value
+                };
+
+                image_url_obj_arr.push(images);
+
+            });
+
         }
-    }
 
-    $("#category-img-input").change(function(){
-        readURL(this);
-    });
-</script>
+        $('.product-images').imageUploader({
+            preloaded: image_url_obj_arr,
+            imagesInputName: 'product_images',
+            preloadedInputName: 'available_images',
+            maxFiles:5,
+        });
+        //     Dropzone.options.myDropzone = {
+        //     // Configuration options go here
+        // };
+    </script>
 
+    <script>
+        var removeImagesIdsArr = [];
+        $('.delete-image').click(function(e) {
+            e.preventDefault();
+            let nxtEl = this.nextSibling;
+            let nxtElValue = nxtEl.value;
+
+            console.log(nxtElValue);
+            // removeImagesIdsArr.push(nxtElValue);
+            // $('[name="removeImagesInput"]').val( removeImagesIdsArr );
+            // console.log(document.getElementById('removeImages').value);
+
+        });
+    </script>
     {!! JsValidator::formRequest('App\Http\Requests\UpdateProductRequest', '#product_update_form'); !!}
 @endpush

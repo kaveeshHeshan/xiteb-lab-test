@@ -110,7 +110,6 @@
                                         <th scope="col">{{__('No :')}}</th>
                                         <th scope="col">{{__('Image :')}}</th>
                                         <th scope="col" class="">{{__('Name')}}</th>
-                                        <th scope="col">{{__('Created By')}}</th>
                                         <th scope="col">{{__('Created On')}}</th>
                                         <th scope="col">{{__('')}}</th>
                                     </tr>
@@ -123,11 +122,8 @@
                                             <tr>
                                                 <td class="">{{$i}}</td>
                                                 <td class="">
-                                                    {{-- @if (!is_null($post) && isset($post->getMedia('posts_cover_images')[0]) && !is_null($post->getMedia('posts_cover_images')[0]))
-                                                        <img class="rounded" style="background: transparent; width: 80px; height: 50px; object-fit: cover;" src="{{ $post->getMedia('posts_cover_images')[0]->getFullUrl() ??  asset('/img/system_default/default-image-placeholder.jpg') }}" alt="">
-                                                    @else
-                                                        <img class="rounded" style="background: transparent; width: 80px; height: 50px; object-fit: cover;" src="{{ asset('/img/system_default/default-image-placeholder.jpg') }}" alt="">
-                                                    @endif --}}
+                                                    <img class="rounded" style="background: transparent; width: 80px; height: 50px; object-fit: cover;" src="{{ asset('/storage/products/'.$product->coverImage->image) }}" alt="">
+                                                    {{-- <pre>{{ $product->productCoverImage() }}</pre> --}}
                                                 </td>
                                                 <td>{{$product->name ?? '--'}}</td>
                                                 <td>{{$product->created_at->format('Y-M-d H:m A') ?? '--'}}</td>
@@ -142,6 +138,10 @@
                                                                 <i class='bx bx-message-square-edit'></i>
                                                                 &nbsp; {{__('Edit')}}
                                                             </a>
+                                                            <button type="button" class="dropdown-item text-danger" onclick="productsRemove( event, {{$product->id}})">
+                                                                <i class='bx bx-trash' ></i>
+                                                                &nbsp; {{__('Remove')}}
+                                                            </button>
                                                         </ul>
                                                     </div>
                                                 </td>
@@ -227,7 +227,7 @@
 
         let APP_URL = {!! json_encode(url('/')) !!};
 
-        function postRemove(e, post_id) {
+        function productsRemove(e, productID) {
             e.preventDefault();
             Swal.fire({
                 title: 'Are you sure?',
@@ -241,9 +241,9 @@
                 if (result.isConfirmed) {
                     $.ajax({
                         type: 'POST',
-                        url: APP_URL+'/posts/remove',
+                        url: APP_URL+'/product/remove',
                         data: {
-                            id: post_id,
+                            id: productID,
                         },
                         success: function(response) {
                             console.log(response);

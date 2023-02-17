@@ -88,6 +88,7 @@
             <div class="">
                 <form id="subcategory_update_form" method="POST" action="{{route('subcategories.update', $subcategory->id)}}" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <!-- Profile -->
                     <div class="">
                         {{-- <form> --}}

@@ -28,7 +28,7 @@ class UpdateProductRequest extends FormRequest
             'name' => 'required|min:3|max:30',
             'description' => 'required|min:10|max:200',
             'price' => 'required|numeric',
-            'product-images' => 'nullable|image|array',
+            'product_images' => 'nullable',
         ];
     }
 
@@ -40,6 +40,7 @@ class UpdateProductRequest extends FormRequest
     public function attributes()
     {
         return [
+            'name' => __('product title'),
             'subcategory_id' => __('subcategory'),
         ];
     }

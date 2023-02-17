@@ -222,7 +222,7 @@
 
     $('.product-images').imageUploader({
         preloaded: image_url_obj_arr,
-        imagesInputName: 'product-images',
+        imagesInputName: 'product_images',
         preloadedInputName: 'available_images',
         maxFiles:5,
     });

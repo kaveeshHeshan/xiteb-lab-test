@@ -28,7 +28,7 @@ class StoreProductRequest extends FormRequest
             'name' => 'required|min:3|max:30',
             'description' => 'required|min:10|max:200',
             'price' => 'required|numeric',
-            'product-images' => 'required|image|array',
+            'product_images' => 'required',
         ];
     }
 
@@ -40,6 +40,7 @@ class StoreProductRequest extends FormRequest
     public function attributes()
     {
         return [
+            'name' => __('product title'),
             'subcategory_id' => __('subcategory'),
         ];
     }
@@ -52,7 +53,7 @@ class StoreProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'product-images.required' => 'Images of products are required.',
+            'product_images.required' => 'Images of products are required.',
         ];
     }
 }

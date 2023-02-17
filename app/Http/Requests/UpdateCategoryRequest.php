@@ -37,6 +37,7 @@ class UpdateCategoryRequest extends FormRequest
     public function attributes()
     {
         return [
+            'name' => __('category title'),
             'category_cover_image' => __('category image'),
         ];
     }

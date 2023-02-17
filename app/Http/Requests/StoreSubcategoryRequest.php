@@ -25,7 +25,7 @@ class StoreSubcategoryRequest extends FormRequest
     {
         return [
             'category_id' => 'required',
-            'name' => 'required|min:3|min:30',
+            'name' => 'required|min:3|max:30',
             'subcategory_cover_image' => 'required|image',
         ];
     }
@@ -38,6 +38,7 @@ class StoreSubcategoryRequest extends FormRequest
     public function attributes()
     {
         return [
+            'name' => __('subcategory title'),
             'category_id' => __('category'),
         ];
     }
