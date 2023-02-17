@@ -4,10 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+        <title>Subcategories</title>
 
         <!-- Styles -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
@@ -40,34 +37,31 @@
             @endif
         </div>
         <div class="">
-            <div class="header-box container text-center">
-                <h1>{{__('Welcome!')}}</h1>
-            </div>
-            <br>
             <div class="product-list-box">
                 <div class="text-center">
-                    <h3>{{__('Categories')}}</h3>
+                    <h3>{{__('Subcategories')}}</h3>
+                    <a class="btn btn-success" href="{{ url()->previous()}}">{{__('Back')}}</a>
                 </div>
                 <hr>
                 <div class="container">
                     <div class="row text-center">
-                        @if (count($categories) > 0)
-                            @foreach ($categories as $category)
+                        @if (count($products) > 0)
+                            @foreach ($products as $product)
                                 <div class="col-3 pt-4">
-                                    <a href="{{route('user.subcategory_list', $category->id)}}">
+                                    <a href="{{route('user.product_view', $product->id)}}">
                                         <div class="card shadow border-0" style="width: 18rem;">
                                             <div class="card-body">
                                                 <div class="card-image">
-                                                    <img class="card-img-top" height="200px" width="100px" src="{{ $category->categoryImage() }}" alt="Card image cap">
+                                                    <img class="card-img-top" height="200px" width="100px" src="{{ asset('/storage/products/'.$product->coverImage->image) }}" alt="Card image cap">
                                                 </div>
-                                            <h5 class="card-title mt-3">{{$category->name}}</h5>
+                                            <h5 class="card-title mt-3">{{$product->name}}</h5>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
                             @endforeach
                         @else
-                            <h5>{{__('No Categories Found')}}</h5>
+                            <h5>{{__('No Products Found')}}</h5>
                         @endif
                     </div>
                 </div>

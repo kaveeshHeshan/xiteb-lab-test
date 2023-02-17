@@ -13,9 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+Route::get('/', 'PagesControiller@welcomePage');
+Route::get('/category/{category_id}/subcategories', 'PagesControiller@subcategoriesByCategoryId')->name('user.subcategory_list');
+Route::get('/category/{category_id}/subcategories/{subcategory_id}/products', 'PagesControiller@productsBySubcategoryId')->name('user.products_list');
+Route::get('/category/subcategories/products/{product_id}', 'PagesControiller@productDetailsById')->name('user.product_view');
 
 Auth::routes();
 

@@ -17,7 +17,7 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::where('is_active', 1)->get();
+        $categories = Category::all();
         return view('pages.categories.index', compact('categories'));
     }
 
@@ -42,6 +42,7 @@ class CategoriesController extends Controller
         try {
 
             $isActiveValue = isset($request->is_active) ? 1 : 0;
+            
             $request->merge(['is_active' => $isActiveValue]);
 
             if ($request->hasFile('category_cover_image')) {
@@ -125,6 +126,8 @@ class CategoriesController extends Controller
 
             $isActiveValue = isset($request->is_active) ? 1 : 0;
             $request->merge(['is_active' => $isActiveValue]);
+
+            
 
             if ($request->hasFile('category_cover_image')) {
 

@@ -113,7 +113,7 @@
                             </div>
                             <div class="row form-section mt-1" style="padding-left: 15px;">
                                 <div class="col-md-4 form-check form-switch">
-                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" @if ($category->is_active == 1) checked @endif>
+                                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault" name="is_active" @if ($category->is_active == 1) checked @endif>
                                     <label class="form-check-label" for="flexSwitchCheckDefault">{{__('Is Active')}}</label>
                                 </div>
                             </div>

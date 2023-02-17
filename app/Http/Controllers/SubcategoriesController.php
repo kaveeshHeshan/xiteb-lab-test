@@ -18,7 +18,7 @@ class SubcategoriesController extends Controller
      */
     public function index()
     {
-        $subcategories = Subcategory::where('is_active', 1)->get();
+        $subcategories = Subcategory::all();
         return view('pages.subcategories.index', compact('subcategories'));
     }
 

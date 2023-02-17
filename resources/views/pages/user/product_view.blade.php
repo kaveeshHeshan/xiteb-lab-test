@@ -46,30 +46,12 @@
             <br>
             <div class="product-list-box">
                 <div class="text-center">
-                    <h3>{{__('Categories')}}</h3>
+                    <h3>{{__('Product')}}</h3>
+                    <a class="btn btn-success" href="{{ url()->previous()}}">{{__('Back')}}</a>
                 </div>
                 <hr>
                 <div class="container">
-                    <div class="row text-center">
-                        @if (count($categories) > 0)
-                            @foreach ($categories as $category)
-                                <div class="col-3 pt-4">
-                                    <a href="{{route('user.subcategory_list', $category->id)}}">
-                                        <div class="card shadow border-0" style="width: 18rem;">
-                                            <div class="card-body">
-                                                <div class="card-image">
-                                                    <img class="card-img-top" height="200px" width="100px" src="{{ $category->categoryImage() }}" alt="Card image cap">
-                                                </div>
-                                            <h5 class="card-title mt-3">{{$category->name}}</h5>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                            @endforeach
-                        @else
-                            <h5>{{__('No Categories Found')}}</h5>
-                        @endif
-                    </div>
+                    <h4>Product Details</h4>
                 </div>
             </div>
         </div>
