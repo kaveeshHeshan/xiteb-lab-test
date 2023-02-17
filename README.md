@@ -1,10 +1,10 @@
 # Xiteb Lab - Test!
 
-**Name :** E. Kaveeh Heshan
-**Email :** kaveeshheshan95@gmail.com
-**Position :** Software Engineer (PHP - Laravel)
-**Time :** 8.5 Hours
-**Technology Stack :** PHP(Laravel), HTML, CSS, Javascript, Ajax(Jquery).
+- **Name :** E. Kaveeh Heshan
+- **Email :** kaveeshheshan95@gmail.com
+- **Position :** Software Engineer (PHP - Laravel)
+- **Time :** 8.5 Hours
+- **Technology Stack :** PHP(Laravel), HTML, CSS, Javascript, Ajax(Jquery).
 
 ## Project - Setup
 1. Clone the project
