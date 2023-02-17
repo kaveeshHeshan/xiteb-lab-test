@@ -1,7 +1,7 @@
 <div class="sidebar">
     <div class="logo-details">
         <i class='bx bxl-c-plus-plus'></i>
-        <span class="logo-name">ABC</span>
+        <span class="logo-name">{{__('Xiteb - Test')}}</span>
     </div>
     <ul class="navigation-links">
         <li>

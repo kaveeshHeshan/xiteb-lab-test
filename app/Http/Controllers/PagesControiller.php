@@ -25,7 +25,7 @@ class PagesControiller extends Controller
     public function productsBySubcategoryId($category_id, $subcategory_id)
     {
         $products = Product::where('subcategory_id', $subcategory_id)->get();
-        return view('pages.user.products_list', compact('products'));
+        return view('pages.user.products_list', compact('products', 'category_id', 'subcategory_id'));
     }
 
     public function productDetailsById($product_id)

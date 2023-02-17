@@ -1,15 +1,19 @@
-<div class="dashboard-content">
-  <!-- nav bar -->
-  <div class="dashboard-topbar shadow">
-      <div class="toggle">
-          <i id="menu-icon" class='bx bx-menu'></i>
-      </div>
-      <div class="search-bar">
-          {{-- <input type="text" name="" id="" placeholder="Search Here ...">
-          <i class='bx bx-search'></i> --}}
-      </div>
-      <div class="nav-right-side">
-          <div class="user-icon-dropdown" style="float:left;">
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">
+            {{ config('app.name', 'Xiteb-Test') }}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- Left Side Of Navbar -->
+            <ul class="navbar-nav me-auto">
+
+            </ul>
+
+            <!-- Right Side Of Navbar -->
             <ul class="navbar-nav ms-auto">
                 <!-- Authentication Links -->
                 @guest
@@ -25,12 +29,13 @@
                         </li>
                     @endif
                 @else
-                    <li class="nav-item dropdown" style="margin-right: 30px;">
+                    <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+
                             <a class="dropdown-item" href="{{url('/home')}}">{{__('Dashboard')}}</a>
                             <a class="dropdown-item" href="{{ route('logout') }}"
                                onclick="event.preventDefault();
@@ -45,17 +50,6 @@
                     </li>
                 @endguest
             </ul>
-            </div>
-      </div>
-  </div>
-</div>
-
-<script>
-    var notification_btn = document.getElementById('notification-open-menu');
-    var notification_list = document.getElementById('notification-list');
-
-    notification_btn.addEventListener('click', () => {
-        console.log("Clicked");
-        notification_list.classList.toggle('list-active');
-    });
-</script>
+        </div>
+    </div>
+</nav>
