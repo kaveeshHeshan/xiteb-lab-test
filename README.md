@@ -7,7 +7,11 @@
 - **Technology Stack :** PHP(Laravel), HTML, CSS, Javascript, Ajax(Jquery).
 
 ## Project - Setup
-1. Clone the project
+1. Clone the project or download it from Google drive as explained in the email (Links are provided in the email) or from follwing links.
+    
+	> [Google Drive](https://drive.google.com/file/d/1RzVuyck6uubdiCPTox-MUrCtLSLXIONV/view?usp=sharing)
+	> [GITHUB](https://github.com/kaveeshHeshan/xiteb-lab-test)
+
 2. Setup **.env** file **by coping and renaming .env.example file** with database credentials, Mail credentials etc.
 3. Run **"composer update"**.
 4. Then run **"npm install && npm run dev"**.
