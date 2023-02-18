@@ -28,10 +28,15 @@
 
 - I have used Laravel version 8 for this project.
 - Firstly, I defined two user levels (staff member and user) and used Spatie/permission library to manage roles and handled the redirection part.
+- Then I have implemented the access controling part for the users and staff members.
 - I defined and developed alert system using Sweet Alert library.
 - Then added layouts after design them.
 - After that, I focused on the CRUD functionalities (Category and Subcategory).
+- In subcategories, I have added foreign key fields to identify which category is this belongs to.
 - Then I developed products CRUD functionality and handled images functionality using image-uploader library.
+- In here also, I have added foreign key fields to products table in order to identify which subcategory is the product belongs to.
+- Then I have created a pivot table to store product images information and retrieved relavent details through a relationship.
+- Product Cover image will be the first image you added to the image array.
 - Category and Subcategory Show / hide functionality is developed and can be done using "Is Active" radio button.
 - Then designed and developed list pages of categories, subcategories and products including the product view page. Each list pages linked and brings you filtered data.
-- Inquery mail sending is handled using Laravel - Notification.
+- Inquery mail sending is handled using Laravel - Notification and used mailtrp credentials to Test Email.
