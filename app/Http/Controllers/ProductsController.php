@@ -16,6 +16,15 @@ use Illuminate\Support\Facades\Notification;
 
 class ProductsController extends Controller
 {
+    // Constructor
+    public function __construct()
+    {
+        // Define permissions
+        $this->middleware('permission:product.create', ['only' => ['create']]);
+        $this->middleware('permission:product.edit',   ['only' => ['edit']]);
+        $this->middleware('permission:product.delete',   ['only' => ['deleteProduct']]);
+        $this->middleware('permission:product.list',   ['only' => ['index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -156,11 +165,14 @@ class ProductsController extends Controller
     public function update(UpdateProductRequest $request, $id)
     {
         try {
+
             DB::beginTransaction();
 
             // Update product details
             $product = Product::findorFail($id);
             $product->update($request->all());
+
+            // dd($request->available_images);
 
             if ($request->has('product_images')) {
 
@@ -176,6 +188,8 @@ class ProductsController extends Controller
                         ProductImages::whereIn('id', $diffImagesArr)->delete();
     
                     }
+                }else {
+                    ProductImages::where('product_id', $product->id)->delete();
                 }
 
                 $i = 1;
@@ -280,37 +294,4 @@ class ProductsController extends Controller
         }
     }
 
-    public function inquerySubmission(Request $request)
-    {
-        try {
-
-            $users = User::role('staff_member')->get();
-            $product_id = $request->productId;
-            $username = $request->username;
-            $email = $request->email;
-            $contact_number = $request->contactNumber;
-            $question = $request->question;
-
-            try {
-                
-                Notification::send($users, new Inquery($product_id, $username, $email, $contact_number, $question));
-
-            } catch (\Throwable $th) {
-                //throw $th;
-                Log::error("Inquery Mail Error : ".$th->getMessage());
-            }
-
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Your inquery is submitted successfully!',
-            ])->setStatusCode(200);
-            
-        } catch (\Throwable $th) {
-            //throw $th;
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Something went wrong!',
-            ])->setStatusCode(561);
-        }
-    }
 }

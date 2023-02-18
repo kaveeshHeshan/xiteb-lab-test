@@ -1,9 +1,9 @@
 @component('mail::message')
 # {{__('You have a new inquery.')}}
 {{__('It seems like a customer has something to ask regarding the product called')}} {{$productname}}{{__('.')}}
-{{__('Please have your attension on this.')}}
+{{__('Please have your attension on this matter.')}}
 
-|                                   |              |Desscription          | 
+|                                   |              |Description          | 
 | --------------------------------- |:------------:|:---------------------|
 | {{__('User Name : ')}}            |              | {{$username}}        |
 | {{__('Email : ')}}                |              | {{$email}}           |

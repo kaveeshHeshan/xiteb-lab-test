@@ -39,7 +39,7 @@
                         @foreach ($categories as $category)
                             <div class="col-3 pt-4">
                                 <a href="{{route('user.subcategory_list', $category->id)}}">
-                                    <div class="card shadow border-0" style="width: 18rem;">
+                                    <div class="card shadow border-0" style="width: 100%;">
                                         <div class="card-body">
                                             <div class="card-image">
                                                 <img class="card-img-top" height="200px" width="100px" src="{{ $category->categoryImage() }}" alt="Card image cap">

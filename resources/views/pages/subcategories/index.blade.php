@@ -92,12 +92,14 @@
                 <div class="">
                     <h2>{{__('Subcategories Management')}}</h2>
                 </div>
-                <div class="" style="">
-                    <a href="{{url('/subcategories/create')}}" class="btn btn-primary float-right">
-                        <i class='bx bx-plus'></i>
-                        &nbsp;{{__('Add Subcategory')}}
-                    </a>
-                </div>
+                @can('subcategory.create')
+                    <div class="" style="">
+                        <a href="{{url('/subcategories/create')}}" class="btn btn-primary float-right">
+                            <i class='bx bx-plus'></i>
+                            &nbsp;{{__('Add Subcategory')}}
+                        </a>
+                    </div>
+                @endcan
             </div>
             <hr>
             <div class="col-12 custom-datatable-div">
@@ -132,11 +134,13 @@
                                                             <i class='bx bx-dots-vertical-rounded'></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('/subcategories', $subcategory->id) }}/edit">
-                                                                <i class='bx bx-message-square-edit'></i>
-                                                                &nbsp; {{__('Edit')}}
-                                                            </a>
+                                                            @can('subcategory.edit')
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('/subcategories', $subcategory->id) }}/edit">
+                                                                    <i class='bx bx-message-square-edit'></i>
+                                                                    &nbsp; {{__('Edit')}}
+                                                                </a>
+                                                            @endcan
                                                         </ul>
                                                     </div>
                                                 </td>

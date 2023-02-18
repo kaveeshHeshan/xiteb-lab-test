@@ -52,7 +52,7 @@ class Inquery extends Notification
     {
         $product = Product::findorFail($this->product_id);
         $productname = $product->name ?? '--';
-        $username = $this->product_id;
+        $username = $this->username;
         $email = $this->email;
         $contact_number = $this->contact_number;
         $question = $this->question;
@@ -60,10 +60,6 @@ class Inquery extends Notification
         return (new MailMessage)
         ->subject("Inquery")
         ->markdown('emails.inquery', compact('productname', 'username', 'email', 'contact_number', 'question'));
-
-                    // ->line('The introduction to the notification.')
-                    // ->action('Notification Action', url('/'))
-                    // ->line('Thank you for using our application!');
     }
 
     /**

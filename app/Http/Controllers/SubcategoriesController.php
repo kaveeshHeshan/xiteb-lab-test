@@ -11,6 +11,14 @@ use App\Http\Requests\UpdateSubcategoryRequest;
 
 class SubcategoriesController extends Controller
 {
+    // Constructor
+    public function __construct()
+    {
+        // Define permissions
+        $this->middleware('permission:subcategory.create', ['only' => ['create']]);
+        $this->middleware('permission:subcategory.edit',   ['only' => ['edit']]);
+        $this->middleware('permission:subcategory.list',   ['only' => ['index']]);
+    }
     /**
      * Display a listing of the resource.
      *

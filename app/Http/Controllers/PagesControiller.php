@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class PagesControiller extends Controller
 {
+
     public function welcomePage()
     {
         $categories = Category::where('is_active', 1)->get();

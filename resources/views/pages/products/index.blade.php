@@ -93,10 +93,12 @@
                     <h2>{{__('Products Management')}}</h2>
                 </div>
                 <div class="" style="">
-                    <a href="{{url('/products/create')}}" class="btn btn-primary float-right">
-                        <i class='bx bx-plus'></i>
-                        &nbsp;{{__('Add Product')}}
-                    </a>
+                    @can('product.create')
+                        <a href="{{url('/products/create')}}" class="btn btn-primary float-right">
+                            <i class='bx bx-plus'></i>
+                            &nbsp;{{__('Add Product')}}
+                        </a>
+                    @endcan
                 </div>
             </div>
             <hr>
@@ -133,15 +135,19 @@
                                                             <i class='bx bx-dots-vertical-rounded'></i>
                                                         </button>
                                                         <ul class="dropdown-menu dropdown-menu-end">
-                                                            <a class="dropdown-item"
-                                                                href="{{ url('/products', $product->id) }}/edit">
-                                                                <i class='bx bx-message-square-edit'></i>
-                                                                &nbsp; {{__('Edit')}}
-                                                            </a>
-                                                            <button type="button" class="dropdown-item text-danger" onclick="productsRemove( event, {{$product->id}})">
-                                                                <i class='bx bx-trash' ></i>
-                                                                &nbsp; {{__('Remove')}}
-                                                            </button>
+                                                            @can('product.edit')
+                                                                <a class="dropdown-item"
+                                                                    href="{{ url('/products', $product->id) }}/edit">
+                                                                    <i class='bx bx-message-square-edit'></i>
+                                                                    &nbsp; {{__('Edit')}}
+                                                                </a>
+                                                            @endcan
+                                                            @can('product.delete')
+                                                                <button type="button" class="dropdown-item text-danger" onclick="productsRemove( event, {{$product->id}})">
+                                                                    <i class='bx bx-trash' ></i>
+                                                                    &nbsp; {{__('Remove')}}
+                                                                </button>
+                                                            @endcan
                                                         </ul>
                                                     </div>
                                                 </td>

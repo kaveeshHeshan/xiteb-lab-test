@@ -10,6 +10,14 @@ use App\Http\Requests\UpdateCategoryRequest;
 
 class CategoriesController extends Controller
 {
+    // Constructor
+    public function __construct()
+    {
+        // Define permissions
+        $this->middleware('permission:category.create', ['only' => ['create']]);
+        $this->middleware('permission:category.edit',   ['only' => ['edit']]);
+        $this->middleware('permission:category.list',   ['only' => ['index']]);
+    }
     /**
      * Display a listing of the resource.
      *

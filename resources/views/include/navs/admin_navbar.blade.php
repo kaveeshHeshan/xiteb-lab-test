@@ -2,30 +2,29 @@
   <!-- nav bar -->
   <div class="dashboard-topbar shadow">
       <div class="toggle">
-          <i id="menu-icon" class='bx bx-menu'></i>
+          {{-- <i id="menu-icon" class='bx bx-menu'></i> --}}
       </div>
       <div class="search-bar">
           {{-- <input type="text" name="" id="" placeholder="Search Here ...">
           <i class='bx bx-search'></i> --}}
       </div>
       <div class="nav-right-side">
-          <div class="user-icon-dropdown" style="float:left;">
-            <ul class="navbar-nav ms-auto">
-                <!-- Authentication Links -->
+            <div class="">
+                <div class="nav-item" style="margin-right: 30px;">
+                    <a class="nav-link" href="{{ url('/') }}">{{ __('Home') }}</a>
+                </div>
+            </div>
+
+            <div class="">
                 @guest
                     @if (Route::has('login'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                     @endif
-
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
                 @else
-                    <li class="nav-item dropdown" style="margin-right: 30px;">
+                    
+                    <div class="nav-item dropdown" style="margin-right: 30px;">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             {{ Auth::user()->name }}
                         </a>
@@ -42,8 +41,14 @@
                                 @csrf
                             </form>
                         </div>
-                    </li>
+                    </div>
                 @endguest
+            </div>
+          
+          <div class="user-icon-dropdown" style="float:left;">
+            <ul class="navbar-nav ms-auto">
+                <!-- Authentication Links -->
+                
             </ul>
             </div>
       </div>

@@ -119,7 +119,7 @@
             e.preventDefault();
             Swal.fire({
                 title: 'Inquery Form',
-                html: `<input type="text" id="username-input" class="swal2-input" placeholder="Username" required>
+                html: `<input type="text" id="username-input" class="swal2-input text-left" placeholder="Username" required>
                         <input type="email" id="email-input" class="swal2-input" placeholder="E-mail" required>
                         <input type="text" id="contact-input" class="swal2-input" placeholder="Contact Number" required>
                         <textarea id='question-input' class='swal2-textarea' placeholder="Question"></textarea>`,
@@ -137,39 +137,71 @@
                 }
                 }).then((result) => {
 
-                    $.ajax({
-                        type: 'POST',
-                        url: APP_URL+'/inquery',
-                        data: {
-                            productId: productId,
-                            username: result.value.username,
-                            email: result.value.email,
-                            contactNumber: result.value.contactNumber,
-                            question: result.value.question,
-                        },
-                        success: function(response) {
-                            Swal.fire({
-                                toast: true,
-                                position: 'bottom-end',
-                                icon: 'success',
-                                title: response.message,
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            iconHtml: "<i style='border:none !important; outline:none !important;' class='bx bx-loader-alt bx-spin'></i>",
+                            title: "{{ __('Your inquiry is being submitted...') }}",
+                            showConfirmButton: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            onOpen: () => {
+                                swal.showLoading();
+                            }
+                        });
 
-                        },
-                        error: function(response) {
-                            Swal.fire({
-                                toast: true,
-                                position: 'bottom-end',
-                                icon: 'error',
-                                title: response.message,
-                                showConfirmButton: false,
-                                timer: 3500
-                            });
+                        $.ajax({
+                            type: 'POST',
+                            url: APP_URL+'/inquery',
+                            data: {
+                                productId: productId,
+                                username: result.value.username,
+                                email: result.value.email,
+                                contactNumber: result.value.contactNumber,
+                                question: result.value.question,
+                            },
+                            success: function(response) {
+                                Swal.fire({
+                                    toast: true,
+                                    position: 'bottom-end',
+                                    icon: 'success',
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                });
 
-                        }
-                    });
+                                //close alert
+                                Swal.hideLoading();
+                            },
+                            error: function(response) {
+                                Swal.fire({
+                                    toast: true,
+                                    position: 'bottom-end',
+                                    icon: 'error',
+                                    title: response.message,
+                                    showConfirmButton: false,
+                                    timer: 3500
+                                });
+
+                                //close alert
+                                Swal.hideLoading();
+                            }
+                        });
+                    } else {
+
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom-end',
+                            icon: 'info',
+                            title: "{{ __('Your inquiry submission is canceled.') }}",
+                            showConfirmButton: false,
+                            allowEscapeKey: false,
+                            allowOutsideClick: false,
+                            timer:3500,
+                        });
+
+                    }
 
                 })
         }
