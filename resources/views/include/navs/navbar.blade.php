@@ -56,3 +56,6 @@
         </div>
     </div>
 </nav>
+
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>

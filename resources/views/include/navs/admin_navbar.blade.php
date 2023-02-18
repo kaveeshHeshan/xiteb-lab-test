@@ -55,6 +55,8 @@
   </div>
 </div>
 
+<!-- Scripts -->
+<script src="{{ asset('js/app.js') }}"></script>
 <script>
     var notification_btn = document.getElementById('notification-open-menu');
     var notification_list = document.getElementById('notification-list');
